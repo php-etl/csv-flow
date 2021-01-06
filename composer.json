@@ -1,0 +1,53 @@
+{
+    "name": "php-etl/csv-flow",
+    "description": "CSV implementation for the ETL pipeline",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kiboko SAS",
+            "homepage": "http://kiboko.fr"
+        },
+        {
+            "name": "Grégory Planchat",
+            "email": "gregory@kiboko.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Kiboko\\Component\\Flow\\Csv\\": ""
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "unit\\Kiboko\\Component\\Flow\\Csv\\": "unit/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.0",
+        "php-etl/pipeline-contracts": "^0.1",
+        "php-etl/bucket-contracts": "^0.1",
+        "php-etl/bucket": "^0.1",
+        "psr/log": "^1.1@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "phpunit/php-invoker": "*",
+        "johnkary/phpunit-speedtrap": "*",
+        "mybuilder/phpunit-accelerator": "*",
+        "phpspec/phpspec": "^7.0",
+        "friends-of-phpspec/phpspec-code-coverage": "^6.0",
+        "php-etl/phpspec-extension": "^0.2@dev",
+        "phpstan/phpstan": "^0.12",
+        "infection/infection": "^0.20"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}
