@@ -15,12 +15,13 @@
     ],
     "autoload": {
         "psr-4": {
-            "Kiboko\\Component\\Flow\\Csv\\": ""
+            "Kiboko\\Component\\Flow\\Csv\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "unit\\Kiboko\\Component\\Flow\\Csv\\": "unit/"
+            "unit\\Kiboko\\Component\\Flow\\Csv\\": "tests/unit/",
+            "functional\\Kiboko\\Component\\Flow\\Csv\\": "tests/functional/"
         }
     },
     "config": {
