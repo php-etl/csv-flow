@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiboko\Component\ETL\Flow\SPL\CSV\Safe;
+namespace Kiboko\Component\Flow\Csv\Safe;
 
 use Kiboko\Component\ETL\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\ETL\Contracts\LoaderInterface;
