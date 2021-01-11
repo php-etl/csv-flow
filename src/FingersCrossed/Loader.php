@@ -2,8 +2,8 @@
 
 namespace Kiboko\Component\Flow\Csv\FingersCrossed;
 
-use Kiboko\Contract\ETL\Bucket\AcceptanceResultBucket;
-use Kiboko\Contract\ETL\Pipeline\LoaderInterface;
+use Kiboko\Component\Bucket\AcceptanceResultBucket;
+use Kiboko\Contract\Pipeline\LoaderInterface;
 
 class Loader implements LoaderInterface
 {

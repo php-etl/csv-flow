@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/bucket.git",
-                "reference": "1d8733b2473f59cc6aaef2000fa85de2a2177af7"
+                "reference": "ed8109f7c1f46aa3189bd6ed88def2e917673367"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/bucket/zipball/1d8733b2473f59cc6aaef2000fa85de2a2177af7",
-                "reference": "1d8733b2473f59cc6aaef2000fa85de2a2177af7",
+                "url": "https://api.github.com/repos/php-etl/bucket/zipball/ed8109f7c1f46aa3189bd6ed88def2e917673367",
+                "reference": "ed8109f7c1f46aa3189bd6ed88def2e917673367",
                 "shasum": ""
             },
             "require": {
@@ -38,7 +38,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Kiboko\\Component\\ETL\\Bucket\\": "src/"
+                    "Kiboko\\Component\\Bucket\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -60,7 +60,7 @@
                 "issues": "https://github.com/php-etl/bucket/issues",
                 "source": "https://github.com/php-etl/bucket/tree/master"
             },
-            "time": "2020-12-17T21:26:04+00:00"
+            "time": "2021-01-11T13:48:54+00:00"
         },
         {
             "name": "php-etl/bucket-contracts",
@@ -68,12 +68,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/bucket-contracts.git",
-                "reference": "87f958c4cdce33d6af2f395244cbc7b895223512"
+                "reference": "c2d2df6eaca0f391ec275cd797b2e7cfa5c24fc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/bucket-contracts/zipball/87f958c4cdce33d6af2f395244cbc7b895223512",
-                "reference": "87f958c4cdce33d6af2f395244cbc7b895223512",
+                "url": "https://api.github.com/repos/php-etl/bucket-contracts/zipball/c2d2df6eaca0f391ec275cd797b2e7cfa5c24fc5",
+                "reference": "c2d2df6eaca0f391ec275cd797b2e7cfa5c24fc5",
                 "shasum": ""
             },
             "require": {
@@ -91,7 +91,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Kiboko\\Contract\\ETL\\Bucket\\": "src/"
+                    "Kiboko\\Contract\\Bucket\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -113,7 +113,7 @@
                 "issues": "https://github.com/php-etl/bucket-contracts/issues",
                 "source": "https://github.com/php-etl/bucket-contracts/tree/master"
             },
-            "time": "2020-12-10T22:18:53+00:00"
+            "time": "2021-01-11T13:21:08+00:00"
         },
         {
             "name": "php-etl/pipeline-contracts",
@@ -121,12 +121,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/pipeline-contracts.git",
-                "reference": "18be461a56191ba3896e86889246ceeac262f221"
+                "reference": "1158ab48bbcbafb1140a1b533f0dab6c8e37623a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/pipeline-contracts/zipball/18be461a56191ba3896e86889246ceeac262f221",
-                "reference": "18be461a56191ba3896e86889246ceeac262f221",
+                "url": "https://api.github.com/repos/php-etl/pipeline-contracts/zipball/1158ab48bbcbafb1140a1b533f0dab6c8e37623a",
+                "reference": "1158ab48bbcbafb1140a1b533f0dab6c8e37623a",
                 "shasum": ""
             },
             "require": {
@@ -145,7 +145,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Kiboko\\Contract\\ETL\\Pipeline\\": "src/"
+                    "Kiboko\\Contract\\Pipeline\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -167,7 +167,7 @@
                 "issues": "https://github.com/php-etl/pipeline-contracts/issues",
                 "source": "https://github.com/php-etl/pipeline-contracts/tree/master"
             },
-            "time": "2020-12-10T22:29:12+00:00"
+            "time": "2021-01-11T14:04:51+00:00"
         },
         {
             "name": "psr/log",

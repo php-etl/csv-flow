@@ -2,7 +2,7 @@
 
 namespace Kiboko\Component\Flow\Csv\FingersCrossed;
 
-use Kiboko\Contract\ETL\Pipeline\ExtractorInterface;
+use Kiboko\Contract\Pipeline\ExtractorInterface;
 
 class Extractor implements ExtractorInterface
 {
