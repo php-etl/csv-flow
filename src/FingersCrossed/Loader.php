@@ -3,6 +3,7 @@
 namespace Kiboko\Component\Flow\Csv\FingersCrossed;
 
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
+use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
@@ -31,16 +32,21 @@ class Loader implements LoaderInterface, LoggerAwareInterface
     {
         $isFirstLine = true;
         while (true) {
-            $line = yield;
+            try {
+                $line = yield;
 
-            if ($isFirstLine === true) {
-                $this->file->fputcsv(array_keys($line), $this->delimiter, $this->enclosure, $this->escape);
-                $isFirstLine = false;
+                if ($isFirstLine === true) {
+                    $this->file->fputcsv(array_keys($line), $this->delimiter, $this->enclosure, $this->escape);
+                    $isFirstLine = false;
+                }
+
+                $this->file->fputcsv($line, $this->delimiter, $this->enclosure, $this->escape);
+
+                yield new AcceptanceResultBucket($line);
+            } catch (\Throwable $exception) {
+                $this->logger?->critical($exception->getMessage(), ['exception' => $exception]);
+                yield new EmptyResultBucket();
             }
-
-            $this->file->fputcsv($line, $this->delimiter, $this->enclosure, $this->escape);
-
-            yield new AcceptanceResultBucket($line);
         }
     }
 

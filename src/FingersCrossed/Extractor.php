@@ -28,28 +28,36 @@ class Extractor implements ExtractorInterface, LoggerAwareInterface
 
     public function extract(): iterable
     {
-        $this->cleanBom();
+        try {
+            $this->cleanBom();
 
-        if ($this->file->eof()) {
-            return;
-        }
-
-        $this->file->setCsvControl($this->delimiter, $this->enclosure, $this->escape);
-
-        $columns = $this->file->fgetcsv();
-        $columnCount = count($columns);
-
-        while (!$this->file->eof()) {
-            $line = $this->file->fgetcsv();
-            $cellCount = count($line);
-
-            if ($cellCount > $columnCount) {
-                $line = array_slice($line, 0, $columnCount, true);
-            } else if ($cellCount > $columnCount) {
-                $line = array_pad($line, $columnCount - $cellCount, null);
+            if ($this->file->eof()) {
+                return;
             }
 
-            yield array_combine($columns, $line);
+            $this->file->setCsvControl($this->delimiter, $this->enclosure, $this->escape);
+
+            $columns = $this->file->fgetcsv();
+            $columnCount = count($columns);
+
+            while (!$this->file->eof()) {
+                try {
+                    $line = $this->file->fgetcsv();
+                    $cellCount = count($line);
+
+                    if ($cellCount > $columnCount) {
+                        $line = array_slice($line, 0, $columnCount, true);
+                    } else if ($cellCount > $columnCount) {
+                        $line = array_pad($line, $columnCount - $cellCount, null);
+                    }
+
+                    yield array_combine($columns, $line);
+                } catch (\Throwable $exception) {
+                    $this->logger?->critical($exception->getMessage(), ['exception' => $exception]);
+                }
+            }
+        } catch (\Throwable $exception) {
+            $this->logger?->emergency($exception->getMessage(), ['exception' => $exception]);
         }
     }
 

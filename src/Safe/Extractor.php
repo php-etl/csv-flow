@@ -28,44 +28,52 @@ class Extractor implements ExtractorInterface, LoggerAwareInterface
 
     public function extract(): iterable
     {
-        $this->cleanBom();
+        try {
+            $this->cleanBom();
 
-        if ($this->file->eof()) {
-            return;
-        }
-
-        $this->file->setCsvControl($this->delimiter, $this->enclosure, $this->escape);
-
-        $columns = $this->file->fgetcsv();
-        $columnCount = count($columns);
-
-        $currentLine = 0;
-        while (!$this->file->eof()) {
-            $line = $this->file->fgetcsv();
-            $cellCount = count($line);
-            ++$currentLine;
-
-            if ($cellCount > $columnCount) {
-                throw new \RuntimeException(strtr(
-                    'The line %line% contains too much values: found %actual% values, was expecting %expected% values.',
-                    [
-                        '%line%' => $currentLine,
-                        '%expected%' => $columnCount,
-                        '%actual%' => $cellCount,
-                    ]
-                ));
-            } else if ($cellCount > $columnCount) {
-                throw new \RuntimeException(strtr(
-                    'The line %line% does not contain the proper values count: found %actual% values, was expecting %expected% values.',
-                    [
-                        '%line%' => $currentLine,
-                        '%expected%' => $columnCount,
-                        '%actual%' => $cellCount,
-                    ]
-                ));
+            if ($this->file->eof()) {
+                return;
             }
 
-            yield array_combine($columns, $line);
+            $this->file->setCsvControl($this->delimiter, $this->enclosure, $this->escape);
+
+            $columns = $this->file->fgetcsv();
+            $columnCount = count($columns);
+
+            $currentLine = 0;
+            while (!$this->file->eof()) {
+                try {
+                    $line = $this->file->fgetcsv();
+                    $cellCount = count($line);
+                    ++$currentLine;
+
+                    if ($cellCount > $columnCount) {
+                        throw new \RuntimeException(strtr(
+                            'The line %line% contains too much values: found %actual% values, was expecting %expected% values.',
+                            [
+                                '%line%' => $currentLine,
+                                '%expected%' => $columnCount,
+                                '%actual%' => $cellCount,
+                            ]
+                        ));
+                    } else if ($cellCount > $columnCount) {
+                        throw new \RuntimeException(strtr(
+                            'The line %line% does not contain the proper values count: found %actual% values, was expecting %expected% values.',
+                            [
+                                '%line%' => $currentLine,
+                                '%expected%' => $columnCount,
+                                '%actual%' => $cellCount,
+                            ]
+                        ));
+                    }
+
+                    yield array_combine($columns, $line);
+                } catch (\Throwable $exception) {
+                    $this->logger?->critical($exception->getMessage(), ['exception' => $exception]);
+                }
+            }
+        } catch (\Throwable $exception) {
+            $this->logger?->emergency($exception->getMessage(), ['exception' => $exception]);
         }
     }
 
