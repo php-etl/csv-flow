@@ -85,8 +85,10 @@ class Extractor implements ExtractorInterface, LoggerAwareInterface
         }
     }
 
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): self
     {
         $this->logger = $logger;
+
+        return $this;
     }
 }

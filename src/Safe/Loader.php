@@ -61,8 +61,10 @@ class Loader implements LoaderInterface, LoggerAwareInterface
         return $result;
     }
 
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): self
     {
         $this->logger = $logger;
+
+        return $this;
     }
 }
