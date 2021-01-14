@@ -3,17 +3,16 @@
 namespace Kiboko\Component\Flow\Csv\FingersCrossed;
 
 use Kiboko\Contract\Pipeline\ExtractorInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 
-class Extractor implements ExtractorInterface
+class Extractor implements ExtractorInterface, LoggerAwareInterface
 {
-    /** @var \SplFileObject */
-    private $file;
-    /** @var string */
-    private $delimiter;
-    /** @var string */
-    private $enclosure;
-    /** @var string */
-    private $escape;
+    private \SplFileObject $file;
+    private string $delimiter;
+    private string $enclosure;
+    private string $escape;
+    private ?LoggerInterface $logger;
 
     public function __construct(
         \SplFileObject $file,
@@ -60,5 +59,10 @@ class Extractor implements ExtractorInterface
         if (!preg_match('/^\\xEF\\xBB\\xBF$/', $bom)) {
             $this->file-> seek(0);
         }
+    }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 }

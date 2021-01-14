@@ -4,17 +4,16 @@ namespace Kiboko\Component\Flow\Csv\Safe;
 
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Contract\Pipeline\LoaderInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 
-class Loader implements LoaderInterface
+class Loader implements LoaderInterface, LoggerAwareInterface
 {
-    /** @var \SplFileObject */
-    private $file;
-    /** @var string */
-    private $delimiter;
-    /** @var string */
-    private $enclosure;
-    /** @var string */
-    private $escape;
+    private \SplFileObject $file;
+    private string $delimiter;
+    private string $enclosure;
+    private string $escape;
+    private ?LoggerInterface $logger;
 
     public function __construct(
         \SplFileObject $file,
@@ -54,5 +53,10 @@ class Loader implements LoaderInterface
         }
 
         return $result;
+    }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 }
