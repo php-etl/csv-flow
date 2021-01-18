@@ -14,7 +14,7 @@ class Loader implements LoaderInterface, LoggerAwareInterface
     private string $delimiter;
     private string $enclosure;
     private string $escape;
-    private ?LoggerInterface $logger;
+    private ?LoggerInterface $logger = null;
 
     public function __construct(
         \SplFileObject $file,
@@ -50,7 +50,12 @@ class Loader implements LoaderInterface, LoggerAwareInterface
         }
     }
 
-    public function setLogger(LoggerInterface $logger): self
+    public function getLogger(): ?LoggerInterface
+    {
+        return $this->logger;
+    }
+
+    public function setLogger(?LoggerInterface $logger): self
     {
         $this->logger = $logger;
 

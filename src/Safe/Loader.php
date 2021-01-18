@@ -14,7 +14,7 @@ class Loader implements LoaderInterface, LoggerAwareInterface
     private string $delimiter;
     private string $enclosure;
     private string $escape;
-    private ?LoggerInterface $logger;
+    private ?LoggerInterface $logger = null;
 
     public function __construct(
         \SplFileObject $file,
