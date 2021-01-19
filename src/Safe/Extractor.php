@@ -56,7 +56,7 @@ class Extractor implements ExtractorInterface, LoggerAwareInterface
                                 '%actual%' => $cellCount,
                             ]
                         ));
-                    } else if ($cellCount > $columnCount) {
+                    } elseif ($cellCount > $columnCount) {
                         throw new \RuntimeException(strtr(
                             'The line %line% does not contain the proper values count: found %actual% values, was expecting %expected% values.',
                             [
@@ -69,11 +69,11 @@ class Extractor implements ExtractorInterface, LoggerAwareInterface
 
                     yield array_combine($columns, $line);
                 } catch (\Throwable $exception) {
-                    $this->logger?->critical($exception->getMessage(), ['exception' => $exception]);
+                    $this->loggercritical($exception->getMessage(), ['exception' => $exception]);
                 }
             }
         } catch (\Throwable $exception) {
-            $this->logger?->emergency($exception->getMessage(), ['exception' => $exception]);
+            $this->loggeremergency($exception->getMessage(), ['exception' => $exception]);
         }
     }
 

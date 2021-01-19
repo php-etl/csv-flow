@@ -47,17 +47,17 @@ class Extractor implements ExtractorInterface, LoggerAwareInterface
 
                     if ($cellCount > $columnCount) {
                         $line = array_slice($line, 0, $columnCount, true);
-                    } else if ($cellCount > $columnCount) {
+                    } elseif ($cellCount > $columnCount) {
                         $line = array_pad($line, $columnCount - $cellCount, null);
                     }
 
                     yield array_combine($columns, $line);
                 } catch (\Throwable $exception) {
-                    $this->logger?->critical($exception->getMessage(), ['exception' => $exception]);
+                    $this->loggercritical($exception->getMessage(), ['exception' => $exception]);
                 }
             }
         } catch (\Throwable $exception) {
-            $this->logger?->emergency($exception->getMessage(), ['exception' => $exception]);
+            $this->loggeremergency($exception->getMessage(), ['exception' => $exception]);
         }
     }
 
