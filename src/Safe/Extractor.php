@@ -69,11 +69,11 @@ class Extractor implements ExtractorInterface, LoggerAwareInterface
 
                     yield array_combine($columns, $line);
                 } catch (\Throwable $exception) {
-                    $this->loggercritical($exception->getMessage(), ['exception' => $exception]);
+                    $this->logger?->critical($exception->getMessage(), ['exception' => $exception]);
                 }
             }
         } catch (\Throwable $exception) {
-            $this->loggeremergency($exception->getMessage(), ['exception' => $exception]);
+            $this->logger?->emergency($exception->getMessage(), ['exception' => $exception]);
         }
     }
 
