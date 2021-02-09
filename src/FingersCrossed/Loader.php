@@ -30,19 +30,14 @@ class Loader implements LoaderInterface, LoggerAwareInterface
 
     public function load(): \Generator
     {
-        $isFirstLine = true;
+        $line = yield;
+        $this->file->fputcsv(array_keys($line), $this->delimiter, $this->enclosure, $this->escape);
+
         while (true) {
             try {
-                $line = yield;
-
-                if ($isFirstLine === true) {
-                    $this->file->fputcsv(array_keys($line), $this->delimiter, $this->enclosure, $this->escape);
-                    $isFirstLine = false;
-                }
+                $line = yield new AcceptanceResultBucket($line);
 
                 $this->file->fputcsv($line, $this->delimiter, $this->enclosure, $this->escape);
-
-                yield new AcceptanceResultBucket($line);
             } catch (\Throwable $exception) {
                 $this->logger?->critical($exception->getMessage(), ['exception' => $exception]);
                 yield new EmptyResultBucket();
