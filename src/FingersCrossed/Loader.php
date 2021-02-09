@@ -40,7 +40,7 @@ class Loader implements LoaderInterface, LoggerAwareInterface
                 $this->file->fputcsv($line, $this->delimiter, $this->enclosure, $this->escape);
             } catch (\Throwable $exception) {
                 $this->logger?->critical($exception->getMessage(), ['exception' => $exception]);
-                yield new EmptyResultBucket();
+                $line = yield new EmptyResultBucket();
             }
         }
     }
