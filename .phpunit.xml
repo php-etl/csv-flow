@@ -22,11 +22,6 @@
     timeoutForMediumTests="10"
     timeoutForLargeTests="60"
     verbose="false">
-    <groups>
-        <exclude>
-            <group>vendor</group>
-        </exclude>
-    </groups>
     <testsuites>
         <testsuite name="Functional tests">
             <directory>tests/functional/</directory>
@@ -35,16 +30,4 @@
     <php>
         <ini name="allow_url_include" value="1" />
     </php>
-    <listeners>
-        <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
-            <arguments>
-                <array>
-                    <element key="slowThreshold">
-                        <integer>1000</integer>
-                    </element>
-                </array>
-            </arguments>
-        </listener>
-        <listener class="MyBuilder\PhpunitAccelerator\TestListener"/>
-    </listeners>
 </phpunit>

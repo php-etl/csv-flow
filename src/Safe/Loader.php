@@ -2,44 +2,48 @@
 
 namespace Kiboko\Component\Flow\Csv\Safe;
 
+use http\Exception\RuntimeException;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Pipeline\LoaderInterface;
-use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
-class Loader implements LoaderInterface, LoggerAwareInterface
+class Loader implements LoaderInterface
 {
-    private \SplFileObject $file;
-    private string $delimiter;
-    private string $enclosure;
-    private string $escape;
-    private ?LoggerInterface $logger = null;
+    private LoggerInterface $logger;
 
     public function __construct(
-        \SplFileObject $file,
-        string $delimiter = ',',
-        string $enclosure = '"',
-        string $escape = '\\'
+        private \SplFileObject $file,
+        private string $delimiter = ',',
+        private string $enclosure = '"',
+        private string $escape = '\\',
+        private ?array $columns = null,
+        private bool $firstLineAsHeaders = true,
+        ?LoggerInterface $logger = null
     ) {
-        $this->file = $file;
-        $this->delimiter = $delimiter;
-        $this->enclosure = $enclosure;
-        $this->escape = $escape;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     public function load(): \Generator
     {
         $line = yield;
-        $this->file->fputcsv($headers = array_keys($line), $this->delimiter, $this->enclosure, $this->escape);
+        if ($this->columns !== null) {
+            $headers = $this->columns;
+        } else {
+            $headers = array_keys($line);
+        }
+        if ($this->firstLineAsHeaders === true) {
+            $this->file->fputcsv($headers, $this->delimiter, $this->enclosure, $this->escape);
+        }
 
         while (true) {
             try {
-                $line = yield new AcceptanceResultBucket($line);
+                $this->file->fputcsv($line = $this->orderColumns($headers, $line), $this->delimiter, $this->enclosure, $this->escape);
 
-                $this->file->fputcsv($this->orderColumns($headers, $line), $this->delimiter, $this->enclosure, $this->escape);
+                $line = yield new AcceptanceResultBucket($line);
             } catch (\Throwable $exception) {
-                $this->logger?->critical($exception->getMessage(), ['exception' => $exception]);
+                $this->logger->critical($exception->getMessage(), ['exception' => $exception]);
                 $line = yield new EmptyResultBucket();
             }
         }
@@ -53,17 +57,5 @@ class Loader implements LoaderInterface, LoggerAwareInterface
         }
 
         return $result;
-    }
-
-    public function getLogger(): ?LoggerInterface
-    {
-        return $this->logger;
-    }
-
-    public function setLogger(?LoggerInterface $logger): self
-    {
-        $this->logger = $logger;
-
-        return $this;
     }
 }

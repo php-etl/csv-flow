@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a30c512905b5e5fbe9bae6d043221b4",
+    "content-hash": "4a3d4af28dc07e7a5a27c2d53aab75dd",
     "packages": [
         {
             "name": "php-etl/bucket",
@@ -218,6 +218,67 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "adlawson/vfs",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adlawson/php-vfs.git",
+                "reference": "610649d759d712cb0a5ec340b0b372f5c9a2f9af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adlawson/php-vfs/zipball/610649d759d712cb0a5ec340b0b372f5c9a2f9af",
+                "reference": "610649d759d712cb0a5ec340b0b372f5c9a2f9af",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5",
+                "psr/log": "^1.0"
+            },
+            "require-dev": {
+                "adlawson/timezone": "^1.0",
+                "fabpot/php-cs-fixer": "^1.9",
+                "mockery/mockery": "^0.9",
+                "phpunit/phpunit": "^4.7"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vfs\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Lawson",
+                    "homepage": "http://adlawson.com"
+                }
+            ],
+            "description": "Virtual file system",
+            "homepage": "https://github.com/adlawson/php-vfs",
+            "keywords": [
+                "dir",
+                "directory",
+                "file",
+                "fs",
+                "read",
+                "stream",
+                "system",
+                "virtual",
+                "wrapper",
+                "write"
+            ],
+            "support": {
+                "issues": "https://github.com/adlawson/php-vfs/issues",
+                "source": "https://github.com/adlawson/php-vfs/tree/develop"
+            },
+            "time": "2016-04-22T07:46:29+00:00"
+        },
         {
             "name": "composer/xdebug-handler",
             "version": "1.4.5",
@@ -1235,6 +1296,118 @@
                 "source": "https://github.com/phar-io/version/tree/3.0.4"
             },
             "time": "2020-12-13T23:18:30+00:00"
+        },
+        {
+            "name": "php-etl/phpunit-extension",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-etl/phpunit-extension.git",
+                "reference": "f26a35b5974e9f00cc1af34a9b4384026b777f98"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-etl/phpunit-extension/zipball/f26a35b5974e9f00cc1af34a9b4384026b777f98",
+                "reference": "f26a35b5974e9f00cc1af34a9b4384026b777f98",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.10",
+                "php": "^8.0",
+                "php-etl/pipeline": "0.2.x-dev",
+                "phpunit/phpunit": "^9"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kiboko\\Component\\PHPUnitExtension\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégory Planchat",
+                    "email": "gregory@kiboko.fr"
+                }
+            ],
+            "description": "Extension for testing FastMap and ETL components with PHPUnit testing framework",
+            "support": {
+                "issues": "https://github.com/php-etl/phpunit-extension/issues",
+                "source": "https://github.com/php-etl/phpunit-extension/tree/master"
+            },
+            "time": "2021-03-10T20:45:44+00:00"
+        },
+        {
+            "name": "php-etl/pipeline",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-etl/pipeline.git",
+                "reference": "3ea13f50b38e8845dd7242a732603435de068e1c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-etl/pipeline/zipball/3ea13f50b38e8845dd7242a732603435de068e1c",
+                "reference": "3ea13f50b38e8845dd7242a732603435de068e1c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0",
+                "php-etl/bucket": "^0.1.0",
+                "php-etl/bucket-contracts": "^0.1.0",
+                "php-etl/pipeline-contracts": "^0.1.0",
+                "psr/log": "^1.1@dev"
+            },
+            "require-dev": {
+                "friends-of-phpspec/phpspec-code-coverage": "*",
+                "fzaninotto/faker": "^1.9@dev",
+                "johnkary/phpunit-speedtrap": "*",
+                "mybuilder/phpunit-accelerator": "*",
+                "phpspec/phpspec": "^7.0",
+                "phpunit/php-invoker": "*",
+                "phpunit/phpunit": "^9.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kiboko\\Component\\Pipeline\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kiboko SAS",
+                    "homepage": "http://kiboko.fr"
+                },
+                {
+                    "name": "Grégory Planchat",
+                    "email": "gregory@kiboko.fr"
+                }
+            ],
+            "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
+            "support": {
+                "issues": "https://github.com/php-etl/pipeline/issues",
+                "source": "https://github.com/php-etl/pipeline/tree/master"
+            },
+            "time": "2021-02-19T18:49:35+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -4791,7 +4964,9 @@
     "stability-flags": {
         "psr/log": 20,
         "php-etl/pipeline-contracts": 20,
-        "php-etl/bucket": 20
+        "php-etl/bucket": 20,
+        "adlawson/vfs": 20,
+        "php-etl/phpunit-extension": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

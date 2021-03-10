@@ -41,7 +41,9 @@
         "mybuilder/phpunit-accelerator": "*",
         "phpspec/phpspec": "^7.0",
         "friends-of-phpspec/phpspec-code-coverage": "^6.0",
-        "infection/infection": "^0.20"
+        "infection/infection": "^0.20",
+        "adlawson/vfs": "dev-develop",
+        "php-etl/phpunit-extension": "0.1.x-dev"
     },
     "extra": {
         "branch-alias": {

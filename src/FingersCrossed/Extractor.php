@@ -3,27 +3,22 @@
 namespace Kiboko\Component\Flow\Csv\FingersCrossed;
 
 use Kiboko\Contract\Pipeline\ExtractorInterface;
-use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
-class Extractor implements ExtractorInterface, LoggerAwareInterface
+class Extractor implements ExtractorInterface
 {
-    private \SplFileObject $file;
-    private string $delimiter;
-    private string $enclosure;
-    private string $escape;
-    private ?LoggerInterface $logger = null;
+    private LoggerInterface $logger;
 
     public function __construct(
-        \SplFileObject $file,
-        string $delimiter = ',',
-        string $enclosure = '"',
-        string $escape = '\\'
+        private \SplFileObject $file,
+        private string $delimiter = ',',
+        private string $enclosure = '"',
+        private string $escape = '\\',
+        private ?array $columns = null,
+        ?LoggerInterface $logger = null
     ) {
-        $this->file = $file;
-        $this->delimiter = $delimiter;
-        $this->enclosure = $enclosure;
-        $this->escape = $escape;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     public function extract(): iterable
@@ -37,7 +32,11 @@ class Extractor implements ExtractorInterface, LoggerAwareInterface
 
             $this->file->setCsvControl($this->delimiter, $this->enclosure, $this->escape);
 
-            $columns = $this->file->fgetcsv();
+            if ($this->columns === null) {
+                $columns = $this->file->fgetcsv();
+            } else {
+                $columns = $this->columns;
+            }
             $columnCount = count($columns);
 
             while (!$this->file->eof()) {
@@ -67,17 +66,5 @@ class Extractor implements ExtractorInterface, LoggerAwareInterface
         if (!preg_match('/^\\xEF\\xBB\\xBF$/', $bom)) {
             $this->file-> seek(0);
         }
-    }
-
-    public function getLogger(): ?LoggerInterface
-    {
-        return $this->logger;
-    }
-
-    public function setLogger(?LoggerInterface $logger): self
-    {
-        $this->logger = $logger;
-
-        return $this;
     }
 }
