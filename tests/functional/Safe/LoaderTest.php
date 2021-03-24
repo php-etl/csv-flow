@@ -41,7 +41,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file);
 
-        $this->assertPipelineDoesLoadLike(
+        $this->assertPipelineLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -92,7 +92,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, delimiter: ';');
 
-        $this->assertPipelineDoesLoadLike(
+        $this->assertPipelineLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -143,7 +143,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, enclosure: '\'');
 
-        $this->assertPipelineDoesLoadLike(
+        $this->assertPipelineLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -197,7 +197,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, escape: '\\', enclosure: '"');
 
-        $this->assertPipelineDoesLoadLike(
+        $this->assertPipelineLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -253,7 +253,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, columns: ['firstname', 'lastname'], firstLineAsHeaders: false);
 
-        $this->assertPipelineDoesLoadLike(
+        $this->assertPipelineLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -303,7 +303,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, delimiter: ';', columns: ['firstname', 'lastname'], firstLineAsHeaders: false);
 
-        $this->assertPipelineDoesLoadLike(
+        $this->assertPipelineLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -353,7 +353,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, enclosure: '\'', columns: ['firstname', 'lastname'], firstLineAsHeaders: false);
 
-        $this->assertPipelineDoesLoadLike(
+        $this->assertPipelineLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -406,7 +406,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, escape: '\\', enclosure: '"', columns: ['firstname', 'lastname', 'address'], firstLineAsHeaders: false);
 
-        $this->assertPipelineDoesLoadLike(
+        $this->assertPipelineLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',

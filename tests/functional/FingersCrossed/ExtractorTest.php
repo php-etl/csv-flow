@@ -25,7 +25,7 @@ final class ExtractorTest extends TestCase
 
         $extratctor = new Csv\FingersCrossed\Extractor($file);
 
-        $this->assertDoesIterateLike(
+        $this->assertPipelineExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -40,7 +40,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\'hara',
                 ],
             ],
-            $extratctor->extract(),
+            $extratctor,
         );
     }
 
@@ -59,7 +59,7 @@ final class ExtractorTest extends TestCase
 
         $extratctor = new Csv\FingersCrossed\Extractor($file, delimiter: ';');
 
-        $this->assertDoesIterateLike(
+        $this->assertPipelineExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -74,7 +74,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\'hara',
                 ],
             ],
-            $extratctor->extract(),
+            $extratctor,
         );
     }
 
@@ -93,7 +93,7 @@ final class ExtractorTest extends TestCase
 
         $extratctor = new Csv\FingersCrossed\Extractor($file, enclosure: '\'');
 
-        $this->assertDoesIterateLike(
+        $this->assertPipelineExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -108,7 +108,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\\\'hara',
                 ],
             ],
-            $extratctor->extract(),
+            $extratctor,
         );
     }
 
@@ -127,7 +127,7 @@ final class ExtractorTest extends TestCase
 
         $extratctor = new Csv\FingersCrossed\Extractor($file, enclosure: '\'', escape: '\'');
 
-        $this->assertDoesIterateLike(
+        $this->assertPipelineExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -142,7 +142,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\'hara',
                 ],
             ],
-            $extratctor->extract(),
+            $extratctor,
         );
     }
 
@@ -160,7 +160,7 @@ final class ExtractorTest extends TestCase
 
         $extratctor = new Csv\FingersCrossed\Extractor($file, columns: ['firstname', 'lastname']);
 
-        $this->assertDoesIterateLike(
+        $this->assertPipelineExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -175,7 +175,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\'hara',
                 ],
             ],
-            $extratctor->extract(),
+            $extratctor,
         );
     }
 
@@ -193,7 +193,7 @@ final class ExtractorTest extends TestCase
 
         $extratctor = new Csv\FingersCrossed\Extractor($file, columns: ['firstname', 'lastname'], delimiter: ';');
 
-        $this->assertDoesIterateLike(
+        $this->assertPipelineExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -208,7 +208,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\'hara',
                 ],
             ],
-            $extratctor->extract(),
+            $extratctor,
         );
     }
 
@@ -226,7 +226,7 @@ final class ExtractorTest extends TestCase
 
         $extratctor = new Csv\FingersCrossed\Extractor($file, columns: ['firstname', 'lastname'], enclosure: '\'');
 
-        $this->assertDoesIterateLike(
+        $this->assertPipelineExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -241,7 +241,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\\\'hara',
                 ],
             ],
-            $extratctor->extract(),
+            $extratctor,
         );
     }
 
@@ -259,7 +259,7 @@ final class ExtractorTest extends TestCase
 
         $extratctor = new Csv\FingersCrossed\Extractor($file, columns: ['firstname', 'lastname'], enclosure: '\'', escape: '\'');
 
-        $this->assertDoesIterateLike(
+        $this->assertPipelineExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -274,7 +274,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\'hara',
                 ],
             ],
-            $extratctor->extract(),
+            $extratctor,
         );
     }
 }
