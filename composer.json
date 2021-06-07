@@ -28,6 +28,7 @@
         "bin-dir": "bin"
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^8.0",
         "psr/log": "^1.1@dev",
