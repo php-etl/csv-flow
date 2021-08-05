@@ -66,7 +66,11 @@ class Extractor implements ExtractorInterface
                         ));
                     }
 
-                    yield array_combine($columns, $line);
+                    if (count($line) == count($columns)) {
+                        yield new AcceptanceResultBucket(array_combine($columns, $line));
+                    } else {
+                        yield new EmptyResultBucket();
+                    }
                 } catch (\Throwable $exception) {
                     $this->logger?->critical($exception->getMessage(), ['exception' => $exception]);
                 }
