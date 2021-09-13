@@ -2,6 +2,7 @@
 
 namespace Kiboko\Component\Flow\Csv\FingersCrossed;
 
+use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -50,7 +51,7 @@ class Extractor implements ExtractorInterface
                         $line = array_pad($line, $columnCount - $cellCount, null);
                     }
 
-                    yield array_combine($columns, $line);
+                    yield new AcceptanceResultBucket(array_combine($columns, $line));
                 } catch (\Throwable $exception) {
                     $this->logger?->critical($exception->getMessage(), ['exception' => $exception]);
                 }
