@@ -3,13 +3,14 @@
 namespace functional\Kiboko\Component\Flow\Csv\FingersCrossed;
 
 use Kiboko\Component\Flow\Csv;
+use Kiboko\Component\PHPUnitExtension\Assert\LoaderAssertTrait;
 use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
 use PHPUnit\Framework\TestCase;
 use Vfs\FileSystem;
 
 final class LoaderTest extends TestCase
 {
-    use PipelineAssertTrait;
+    use LoaderAssertTrait;
 
     private ?FileSystem $fs = null;
 
@@ -41,7 +42,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\FingersCrossed\Loader($file);
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -92,7 +93,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\FingersCrossed\Loader($file, delimiter: ';');
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -143,7 +144,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\FingersCrossed\Loader($file, enclosure: '\'');
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -197,7 +198,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\FingersCrossed\Loader($file, escape: '\\', enclosure: '"');
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -253,7 +254,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\FingersCrossed\Loader($file, columns: ['firstname', 'lastname'], firstLineAsHeaders: false);
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -303,7 +304,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\FingersCrossed\Loader($file, delimiter: ';', columns: ['firstname', 'lastname'], firstLineAsHeaders: false);
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -353,7 +354,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\FingersCrossed\Loader($file, enclosure: '\'', columns: ['firstname', 'lastname'], firstLineAsHeaders: false);
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -406,7 +407,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\FingersCrossed\Loader($file, escape: '\\', enclosure: '"', columns: ['firstname', 'lastname'], firstLineAsHeaders: false);
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
