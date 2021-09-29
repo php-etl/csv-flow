@@ -53,11 +53,11 @@ class Extractor implements ExtractorInterface
 
                     yield new AcceptanceResultBucket(array_combine($columns, $line));
                 } catch (\Throwable $exception) {
-                    $this->logger?->critical($exception->getMessage(), ['exception' => $exception]);
+                    $this->logger->critical($exception->getMessage(), ['exception' => $exception]);
                 }
             }
         } catch (\Throwable $exception) {
-            $this->logger?->emergency($exception->getMessage(), ['exception' => $exception]);
+            $this->logger->emergency($exception->getMessage(), ['exception' => $exception]);
         }
     }
 

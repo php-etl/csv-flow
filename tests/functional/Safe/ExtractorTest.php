@@ -3,12 +3,14 @@
 namespace functional\Kiboko\Component\Flow\Csv\Safe;
 
 use Kiboko\Component\Flow\Csv;
+use Kiboko\Component\PHPUnitExtension\Assert\ExtractorAssertTrait;
 use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
+use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
 
 final class ExtractorTest extends TestCase
 {
-    use PipelineAssertTrait;
+    use ExtractorAssertTrait;
 
     public function testFirstLineAsTitlesWithoutOptions()
     {
@@ -23,7 +25,7 @@ final class ExtractorTest extends TestCase
 
         $file->seek(0);
 
-        $extratctor = new Csv\Safe\Extractor($file);
+        $extractor = new Csv\Safe\Extractor($file);
 
         $this->assertPipelineExtractsLike(
             [
@@ -40,7 +42,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\'hara',
                 ],
             ],
-            $extratctor,
+            $extractor,
         );
     }
 
@@ -276,5 +278,10 @@ final class ExtractorTest extends TestCase
             ],
             $extratctor,
         );
+    }
+
+    public function pipelineRunner(): PipelineRunnerInterface
+    {
+
     }
 }

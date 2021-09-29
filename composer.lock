@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7853fe1a4fa08b0e5a41e8084c714c28",
+    "content-hash": "88b2b380eb3cfb2e77ba325c07d96286",
     "packages": [
         {
             "name": "php-etl/bucket",
@@ -116,27 +116,26 @@
         },
         {
             "name": "php-etl/pipeline-contracts",
-            "version": "dev-master",
+            "version": "v0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/pipeline-contracts.git",
-                "reference": "ad8a336419c31a31bb18a1a42f9aaa2a93fd1722"
+                "reference": "c89002bcc303194bbc9cf3efbff6da62c519ea70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/pipeline-contracts/zipball/ad8a336419c31a31bb18a1a42f9aaa2a93fd1722",
-                "reference": "ad8a336419c31a31bb18a1a42f9aaa2a93fd1722",
+                "url": "https://api.github.com/repos/php-etl/pipeline-contracts/zipball/c89002bcc303194bbc9cf3efbff6da62c519ea70",
+                "reference": "c89002bcc303194bbc9cf3efbff6da62c519ea70",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.0",
                 "php-etl/bucket-contracts": "^0.1.0"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.2.x-dev"
+                    "dev-master": "0.3.x-dev"
                 }
             },
             "autoload": {
@@ -161,9 +160,9 @@
             "description": "This library describes contracts for the Extract-Transform-Load pattern.",
             "support": {
                 "issues": "https://github.com/php-etl/pipeline-contracts/issues",
-                "source": "https://github.com/php-etl/pipeline-contracts/tree/master"
+                "source": "https://github.com/php-etl/pipeline-contracts/tree/v0.3.3"
             },
-            "time": "2021-04-26T21:54:36+00:00"
+            "time": "2021-09-28T06:57:28+00:00"
         },
         {
             "name": "psr/log",
@@ -1299,22 +1298,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/phpunit-extension.git",
-                "reference": "8e0929762296bc84f5c57885e1e213427d086dbc"
+                "reference": "600c2c8f2d493570d944d6a1d5455d04ce5d57c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/phpunit-extension/zipball/8e0929762296bc84f5c57885e1e213427d086dbc",
-                "reference": "8e0929762296bc84f5c57885e1e213427d086dbc",
+                "url": "https://api.github.com/repos/php-etl/phpunit-extension/zipball/600c2c8f2d493570d944d6a1d5455d04ce5d57c7",
+                "reference": "600c2c8f2d493570d944d6a1d5455d04ce5d57c7",
                 "shasum": ""
             },
             "require": {
+                "adlawson/vfs": "*",
                 "nikic/php-parser": "^4.10",
                 "php": "^8.0",
-                "php-etl/pipeline": "^0.3.0",
+                "php-etl/pipeline-contracts": "^0.3.0",
                 "phpunit/phpunit": "^9"
-            },
-            "require-dev": {
-                "adlawson/vfs": "dev-develop"
             },
             "default-branch": true,
             "type": "library",
@@ -1343,70 +1340,7 @@
                 "issues": "https://github.com/php-etl/phpunit-extension/issues",
                 "source": "https://github.com/php-etl/phpunit-extension/tree/master"
             },
-            "time": "2021-06-07T07:12:02+00:00"
-        },
-        {
-            "name": "php-etl/pipeline",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-etl/pipeline.git",
-                "reference": "2795ff437efbed6ccf9fd2f2aca2eec22466d6d9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/pipeline/zipball/2795ff437efbed6ccf9fd2f2aca2eec22466d6d9",
-                "reference": "2795ff437efbed6ccf9fd2f2aca2eec22466d6d9",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0",
-                "php-etl/bucket": "^0.2.0",
-                "php-etl/bucket-contracts": "^0.1.0",
-                "php-etl/pipeline-contracts": "^0.2.0",
-                "psr/log": "^1.1@dev"
-            },
-            "require-dev": {
-                "friends-of-phpspec/phpspec-code-coverage": "*",
-                "fzaninotto/faker": "^1.9@dev",
-                "johnkary/phpunit-speedtrap": "*",
-                "mybuilder/phpunit-accelerator": "*",
-                "phpspec/phpspec": "^7.0",
-                "phpunit/php-invoker": "*",
-                "phpunit/phpunit": "^9.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Kiboko\\Component\\Pipeline\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kiboko SAS",
-                    "homepage": "http://kiboko.fr"
-                },
-                {
-                    "name": "Grégory Planchat",
-                    "email": "gregory@kiboko.fr"
-                }
-            ],
-            "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
-            "support": {
-                "issues": "https://github.com/php-etl/pipeline/issues",
-                "source": "https://github.com/php-etl/pipeline/tree/master"
-            },
-            "time": "2021-05-21T06:44:41+00:00"
+            "time": "2021-09-28T18:53:56+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -4920,5 +4854,5 @@
         "php": "^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
