@@ -3,13 +3,15 @@
 namespace functional\Kiboko\Component\Flow\Csv\Safe;
 
 use Kiboko\Component\Flow\Csv;
-use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
+use Kiboko\Component\PHPUnitExtension\Assert\LoaderAssertTrait;
+use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\NullLogger;
 use Vfs\FileSystem;
 
 final class LoaderTest extends TestCase
 {
-    use PipelineAssertTrait;
+    use LoaderAssertTrait;
 
     private ?FileSystem $fs = null;
 
@@ -41,7 +43,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file);
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -92,7 +94,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, delimiter: ';');
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -143,7 +145,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, enclosure: '\'');
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -197,7 +199,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, escape: '\\', enclosure: '"');
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -253,7 +255,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, columns: ['firstname', 'lastname'], firstLineAsHeaders: false);
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -303,7 +305,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, delimiter: ';', columns: ['firstname', 'lastname'], firstLineAsHeaders: false);
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -353,7 +355,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, enclosure: '\'', columns: ['firstname', 'lastname'], firstLineAsHeaders: false);
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -406,7 +408,7 @@ final class LoaderTest extends TestCase
 
         $loader = new Csv\Safe\Loader($file, escape: '\\', enclosure: '"', columns: ['firstname', 'lastname', 'address'], firstLineAsHeaders: false);
 
-        $this->assertPipelineLoadsLike(
+        $this->assertLoaderLoadsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -445,5 +447,12 @@ final class LoaderTest extends TestCase
         );
 
         $this->assertFileEquals('vfs://expected.csv', 'vfs://output.csv');
+    }
+
+    public function pipelineRunner(): PipelineRunnerInterface
+    {
+        return new \Kiboko\Component\Pipeline\PipelineRunner(
+            new NullLogger()
+        );
     }
 }

@@ -40,7 +40,7 @@ class Loader implements LoaderInterface
             $this->file->fputcsv($headers, $this->delimiter, $this->enclosure, $this->escape);
         }
 
-        while (true) {
+        while ($line) {
             try {
                 $this->file->fputcsv($line = $this->orderColumns($headers, $line), $this->delimiter, $this->enclosure, $this->escape);
 

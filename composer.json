@@ -31,7 +31,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^8.0",
-        "psr/log": "^1.1@dev",
+        "psr/log": "^1.1",
         "php-etl/pipeline-contracts": "^0.3.0",
         "php-etl/bucket": "^0.2.0"
     },
@@ -43,8 +43,9 @@
         "phpspec/phpspec": "^7.0",
         "friends-of-phpspec/phpspec-code-coverage": "^6.0",
         "infection/infection": "^0.20",
-        "adlawson/vfs": "dev-develop",
-        "php-etl/phpunit-extension": "*"
+        "adlawson/vfs": "*",
+        "php-etl/phpunit-extension": "*",
+        "php-etl/pipeline": "^0.4.0"
     },
     "extra": {
         "branch-alias": {
