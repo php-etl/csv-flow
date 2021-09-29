@@ -3,12 +3,14 @@
 namespace functional\Kiboko\Component\Flow\Csv\Safe;
 
 use Kiboko\Component\Flow\Csv;
-use Kiboko\Component\PHPUnitExtension\PipelineAssertTrait;
+use Kiboko\Component\PHPUnitExtension\Assert\ExtractorAssertTrait;
+use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\NullLogger;
 
 final class ExtractorTest extends TestCase
 {
-    use PipelineAssertTrait;
+    use ExtractorAssertTrait;
 
     public function testFirstLineAsTitlesWithoutOptions()
     {
@@ -23,9 +25,9 @@ final class ExtractorTest extends TestCase
 
         $file->seek(0);
 
-        $extratctor = new Csv\Safe\Extractor($file);
+        $extractor = new Csv\Safe\Extractor($file);
 
-        $this->assertPipelineExtractsLike(
+        $this->assertExtractorExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -40,7 +42,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\'hara',
                 ],
             ],
-            $extratctor,
+            $extractor,
         );
     }
 
@@ -57,9 +59,9 @@ final class ExtractorTest extends TestCase
 
         $file->seek(0);
 
-        $extratctor = new Csv\Safe\Extractor($file, delimiter: ';');
+        $extractor = new Csv\Safe\Extractor($file, delimiter: ';');
 
-        $this->assertPipelineExtractsLike(
+        $this->assertExtractorExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -74,7 +76,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\'hara',
                 ],
             ],
-            $extratctor,
+            $extractor,
         );
     }
 
@@ -91,9 +93,9 @@ final class ExtractorTest extends TestCase
 
         $file->seek(0);
 
-        $extratctor = new Csv\Safe\Extractor($file, enclosure: '\'');
+        $extractor = new Csv\Safe\Extractor($file, enclosure: '\'');
 
-        $this->assertPipelineExtractsLike(
+        $this->assertExtractorExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -108,7 +110,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\\\'hara',
                 ],
             ],
-            $extratctor,
+            $extractor,
         );
     }
 
@@ -125,9 +127,9 @@ final class ExtractorTest extends TestCase
 
         $file->seek(0);
 
-        $extratctor = new Csv\Safe\Extractor($file, enclosure: '\'', escape: '\'');
+        $extractor = new Csv\Safe\Extractor($file, enclosure: '\'', escape: '\'');
 
-        $this->assertPipelineExtractsLike(
+        $this->assertExtractorExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -142,7 +144,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\'hara',
                 ],
             ],
-            $extratctor,
+            $extractor,
         );
     }
 
@@ -158,9 +160,9 @@ final class ExtractorTest extends TestCase
 
         $file->seek(0);
 
-        $extratctor = new Csv\Safe\Extractor($file, columns: ['firstname', 'lastname']);
+        $extractor = new Csv\Safe\Extractor($file, columns: ['firstname', 'lastname']);
 
-        $this->assertPipelineExtractsLike(
+        $this->assertExtractorExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -175,7 +177,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\'hara',
                 ],
             ],
-            $extratctor,
+            $extractor,
         );
     }
 
@@ -191,9 +193,9 @@ final class ExtractorTest extends TestCase
 
         $file->seek(0);
 
-        $extratctor = new Csv\Safe\Extractor($file, columns: ['firstname', 'lastname'], delimiter: ';');
+        $extractor = new Csv\Safe\Extractor($file, columns: ['firstname', 'lastname'], delimiter: ';');
 
-        $this->assertPipelineExtractsLike(
+        $this->assertExtractorExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -208,7 +210,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\'hara',
                 ],
             ],
-            $extratctor,
+            $extractor,
         );
     }
 
@@ -224,9 +226,9 @@ final class ExtractorTest extends TestCase
 
         $file->seek(0);
 
-        $extratctor = new Csv\Safe\Extractor($file, columns: ['firstname', 'lastname'], enclosure: '\'');
+        $extractor = new Csv\Safe\Extractor($file, columns: ['firstname', 'lastname'], enclosure: '\'');
 
-        $this->assertPipelineExtractsLike(
+        $this->assertExtractorExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -241,7 +243,7 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\\\'hara',
                 ],
             ],
-            $extratctor,
+            $extractor,
         );
     }
 
@@ -257,9 +259,9 @@ final class ExtractorTest extends TestCase
 
         $file->seek(0);
 
-        $extratctor = new Csv\Safe\Extractor($file, columns: ['firstname', 'lastname'], enclosure: '\'', escape: '\'');
+        $extractor = new Csv\Safe\Extractor($file, columns: ['firstname', 'lastname'], enclosure: '\'', escape: '\'');
 
-        $this->assertPipelineExtractsLike(
+        $this->assertExtractorExtractsLike(
             [
                 [
                     'firstname' => 'Jean Pierre',
@@ -274,7 +276,14 @@ final class ExtractorTest extends TestCase
                     'lastname' => 'O\'hara',
                 ],
             ],
-            $extratctor,
+            $extractor,
+        );
+    }
+
+    public function pipelineRunner(): PipelineRunnerInterface
+    {
+        return new \Kiboko\Component\Pipeline\PipelineRunner(
+            new NullLogger()
         );
     }
 }

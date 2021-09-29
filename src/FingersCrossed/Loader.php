@@ -4,6 +4,7 @@ namespace Kiboko\Component\Flow\Csv\FingersCrossed;
 
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
+use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -24,6 +25,9 @@ class Loader implements LoaderInterface
         $this->logger = $logger ?? new NullLogger();
     }
 
+    /**
+     * @return \Generator
+     */
     public function load(): \Generator
     {
         $line = yield;
@@ -36,13 +40,13 @@ class Loader implements LoaderInterface
             $this->file->fputcsv($headers, $this->delimiter, $this->enclosure, $this->escape);
         }
 
-        while (true) {
+        while ($line) {
             try {
                 $this->file->fputcsv($line, $this->delimiter, $this->enclosure, $this->escape);
 
                 $line = yield new AcceptanceResultBucket($line);
             } catch (\Throwable $exception) {
-                $this->logger?->critical($exception->getMessage(), ['exception' => $exception]);
+                $this->logger->critical($exception->getMessage(), ['exception' => $exception]);
                 $line = yield new EmptyResultBucket();
             }
         }
