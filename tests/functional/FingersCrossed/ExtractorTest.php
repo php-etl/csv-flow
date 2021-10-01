@@ -2,6 +2,7 @@
 
 namespace functional\Kiboko\Component\Flow\Csv\FingersCrossed;
 
+use functional\Kiboko\Component\Flow\Csv\PipelineRunner;
 use Kiboko\Component\Flow\Csv;
 use Kiboko\Component\PHPUnitExtension\Assert\ExtractorAssertTrait;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
@@ -281,5 +282,6 @@ final class ExtractorTest extends TestCase
 
     public function pipelineRunner(): PipelineRunnerInterface
     {
+        return new PipelineRunner();
     }
 }

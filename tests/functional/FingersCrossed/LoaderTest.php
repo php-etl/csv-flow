@@ -2,11 +2,11 @@
 
 namespace functional\Kiboko\Component\Flow\Csv\FingersCrossed;
 
+use functional\Kiboko\Component\Flow\Csv\PipelineRunner;
 use Kiboko\Component\Flow\Csv;
 use Kiboko\Component\PHPUnitExtension\Assert\LoaderAssertTrait;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
 use Vfs\FileSystem;
 
 final class LoaderTest extends TestCase
@@ -451,5 +451,6 @@ final class LoaderTest extends TestCase
 
     public function pipelineRunner(): PipelineRunnerInterface
     {
+        return new PipelineRunner();
     }
 }

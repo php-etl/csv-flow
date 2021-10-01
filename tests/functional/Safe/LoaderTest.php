@@ -2,6 +2,7 @@
 
 namespace functional\Kiboko\Component\Flow\Csv\Safe;
 
+use functional\Kiboko\Component\Flow\Csv\PipelineRunner;
 use Kiboko\Component\Flow\Csv;
 use Kiboko\Component\PHPUnitExtension\Assert\LoaderAssertTrait;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
@@ -451,5 +452,6 @@ final class LoaderTest extends TestCase
 
     public function pipelineRunner(): PipelineRunnerInterface
     {
+        return new PipelineRunner();
     }
 }
