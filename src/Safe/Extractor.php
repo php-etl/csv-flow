@@ -4,10 +4,14 @@ namespace Kiboko\Component\Flow\Csv\Safe;
 
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
+use Kiboko\Component\Bucket\RejectionResultBucket;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
+/**
+ * @template-implements ExtractorInterface<array>
+ */
 class Extractor implements ExtractorInterface
 {
     private LoggerInterface $logger;
@@ -23,6 +27,7 @@ class Extractor implements ExtractorInterface
         $this->logger = $logger ?? new NullLogger();
     }
 
+    /** @return iterable<AcceptanceResultBucket<array>|RejectionResultBucket<array|null>> */
     public function extract(): iterable
     {
         try {
@@ -45,6 +50,9 @@ class Extractor implements ExtractorInterface
             while (!$this->file->eof()) {
                 try {
                     $line = $this->file->fgetcsv();
+                    if ($line === false) {
+                        continue;
+                    }
                     $cellCount = count($line);
                     ++$currentLine;
 
@@ -68,10 +76,13 @@ class Extractor implements ExtractorInterface
                         ));
                     }
 
-                    if (count($line) == count($columns)) {
+                    if (
+                        count($line) == count($columns)
+                        && null !== ($result = array_combine($columns, $line))
+                    ) {
                         yield new AcceptanceResultBucket(array_combine($columns, $line));
                     } else {
-                        yield new EmptyResultBucket();
+                        yield new RejectionResultBucket($line);
                     }
                 } catch (\Throwable $exception) {
                     $this->logger->critical($exception->getMessage(), ['exception' => $exception]);

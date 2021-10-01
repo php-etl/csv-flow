@@ -30,7 +30,7 @@ class Loader implements LoaderInterface
      */
     public function load(): \Generator
     {
-        $line = yield;
+        $line = yield new EmptyResultBucket();
         if ($this->columns !== null) {
             $headers = $this->columns;
         } else {

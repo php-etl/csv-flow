@@ -282,8 +282,5 @@ final class ExtractorTest extends TestCase
 
     public function pipelineRunner(): PipelineRunnerInterface
     {
-        return new \Kiboko\Component\Pipeline\PipelineRunner(
-            new NullLogger()
-        );
     }
 }

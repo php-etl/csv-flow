@@ -6,7 +6,6 @@ use Kiboko\Component\Flow\Csv;
 use Kiboko\Component\PHPUnitExtension\Assert\ExtractorAssertTrait;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
 
 final class ExtractorTest extends TestCase
 {
@@ -282,8 +281,5 @@ final class ExtractorTest extends TestCase
 
     public function pipelineRunner(): PipelineRunnerInterface
     {
-        return new \Kiboko\Component\Pipeline\PipelineRunner(
-            new NullLogger()
-        );
     }
 }

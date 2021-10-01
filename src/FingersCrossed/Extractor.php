@@ -3,10 +3,14 @@
 namespace Kiboko\Component\Flow\Csv\FingersCrossed;
 
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
+use Kiboko\Component\Bucket\RejectionResultBucket;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
+/**
+ * @template-implements ExtractorInterface<array>
+ */
 class Extractor implements ExtractorInterface
 {
     private LoggerInterface $logger;
@@ -22,6 +26,7 @@ class Extractor implements ExtractorInterface
         $this->logger = $logger ?? new NullLogger();
     }
 
+    /** @return iterable<AcceptanceResultBucket<array>|RejectionResultBucket<array|null>> */
     public function extract(): iterable
     {
         try {
@@ -43,6 +48,9 @@ class Extractor implements ExtractorInterface
             while (!$this->file->eof()) {
                 try {
                     $line = $this->file->fgetcsv();
+                    if ($line === false) {
+                        continue;
+                    }
                     $cellCount = count($line);
 
                     if ($cellCount > $columnCount) {
@@ -51,7 +59,12 @@ class Extractor implements ExtractorInterface
                         $line = array_pad($line, $columnCount - $cellCount, null);
                     }
 
-                    yield new AcceptanceResultBucket(array_combine($columns, $line));
+                    $result = array_combine($columns, $line);
+                    if (!is_array($result)) {
+                        yield new RejectionResultBucket($line);
+                    } else {
+                        yield new AcceptanceResultBucket($result);
+                    }
                 } catch (\Throwable $exception) {
                     $this->logger->critical($exception->getMessage(), ['exception' => $exception]);
                 }
