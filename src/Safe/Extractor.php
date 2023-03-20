@@ -14,17 +14,8 @@ use Psr\Log\NullLogger;
  */
 class Extractor implements ExtractorInterface
 {
-    private LoggerInterface $logger;
-
-    public function __construct(
-        private \SplFileObject $file,
-        private string $delimiter = ',',
-        private string $enclosure = '"',
-        private string $escape = '\\',
-        private ?array $columns = null,
-        ?LoggerInterface $logger = null
-    ) {
-        $this->logger = $logger ?? new NullLogger();
+    public function __construct(private readonly \SplFileObject $file, private readonly string $delimiter = ',', private readonly string $enclosure = '"', private readonly string $escape = '\\', private readonly ? array $columns = null, private readonly LoggerInterface $logger = new NullLogger())
+    {
     }
 
     /** @return iterable<AcceptanceResultBucket<array>|RejectionResultBucket<array|null>> */
@@ -44,7 +35,7 @@ class Extractor implements ExtractorInterface
             } else {
                 $columns = $this->columns;
             }
-            $columnCount = count($columns);
+            $columnCount = $columns === null ? 0 : count($columns);
 
             $currentLine = 0;
             while (!$this->file->eof()) {
@@ -53,7 +44,7 @@ class Extractor implements ExtractorInterface
                     if ($line === false) {
                         continue;
                     }
-                    $cellCount = count($line);
+                    $cellCount = count((array) $line);
                     ++$currentLine;
 
                     if ($cellCount > $columnCount) {
@@ -77,7 +68,7 @@ class Extractor implements ExtractorInterface
                     }
 
                     if (
-                        count($line) == count($columns)
+                        count((array) $line) == ($columns === null ? 0 : count($columns))
                         && null !== ($result = array_combine($columns, $line))
                     ) {
                         yield new AcceptanceResultBucket(array_combine($columns, $line));

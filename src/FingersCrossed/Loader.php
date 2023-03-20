@@ -11,18 +11,8 @@ use Psr\Log\NullLogger;
 
 class Loader implements LoaderInterface
 {
-    private LoggerInterface $logger;
-
-    public function __construct(
-        private \SplFileObject $file,
-        private string $delimiter = ',',
-        private string $enclosure = '"',
-        private string $escape = '\\',
-        private ?array $columns = null,
-        private bool $firstLineAsHeaders = true,
-        ?LoggerInterface $logger = null
-    ) {
-        $this->logger = $logger ?? new NullLogger();
+    public function __construct(private readonly \SplFileObject $file, private readonly string $delimiter = ',', private readonly string $enclosure = '"', private readonly string $escape = '\\', private readonly ?array $columns = null, private readonly bool $firstLineAsHeaders = true, private readonly LoggerInterface $logger = new NullLogger())
+    {
     }
 
     /**
