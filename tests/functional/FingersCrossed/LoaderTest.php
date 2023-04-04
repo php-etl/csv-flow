@@ -8,38 +8,44 @@ use functional\Kiboko\Component\Flow\Csv\PipelineRunner;
 use Kiboko\Component\Flow\Csv;
 use Kiboko\Component\PHPUnitExtension\Assert\LoaderAssertTrait;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
+use org\bovigo\vfs\vfsStreamFile;
 use PHPUnit\Framework\TestCase;
-use Vfs\FileSystem;
 
 final class LoaderTest extends TestCase
 {
     use LoaderAssertTrait;
 
-    private ?FileSystem $fs = null;
+    private ?vfsStreamDirectory $fs = null;
 
     protected function setUp(): void
     {
-        $this->fs = FileSystem::factory('vfs://');
-        $this->fs->mount();
+        $this->fs = vfsStream::setup();
     }
 
     protected function tearDown(): void
     {
-        $this->fs->unmount();
         $this->fs = null;
     }
 
     public function testFirstLineAsTitlesWithoutOptions()
     {
-        $file = new \SplFileObject('vfs://output.csv', 'w');
+        $outputFile = new vfsStreamFile('output.csv');
+        $this->fs->addChild($outputFile);
 
-        file_put_contents('vfs://expected.csv', <<<CSV
+        $expectedFile = new vfsStreamFile('expected.csv');
+        $expectedFile->setContent(<<<CSV
             firstname,lastname
             "Jean Pierre",Martin
             John,Doe
             Frank,O'hara
 
-            CSV);
+            CSV
+        );
+        $this->fs->addChild($expectedFile);
+
+        $file = new \SplFileObject($outputFile->url(), 'w');
 
         $file->seek(0);
 
@@ -77,20 +83,26 @@ final class LoaderTest extends TestCase
             $loader,
         );
 
-        $this->assertFileEquals('vfs://expected.csv', 'vfs://output.csv');
+        $this->assertFileEquals($expectedFile->url(), $outputFile->url());
     }
 
     public function testFirstLineAsTitlesWithDelimiter()
     {
-        $file = new \SplFileObject('vfs://output.csv', 'w');
+        $outputFile = new vfsStreamFile('output.csv');
+        $this->fs->addChild($outputFile);
 
-        file_put_contents('vfs://expected.csv', <<<CSV
+        $expectedFile = new vfsStreamFile('expected.csv');
+        $expectedFile->setContent(<<<CSV
             firstname;lastname
             "Jean Pierre";Martin
             John;Doe
             Frank;O'hara
 
-            CSV);
+            CSV
+        );
+        $this->fs->addChild($expectedFile);
+
+        $file = new \SplFileObject($outputFile->url(), 'w');
 
         $file->seek(0);
 
@@ -128,20 +140,26 @@ final class LoaderTest extends TestCase
             $loader,
         );
 
-        $this->assertFileEquals('vfs://expected.csv', 'vfs://output.csv');
+        $this->assertFileEquals($expectedFile->url(), $outputFile->url());
     }
 
     public function testFirstLineAsTitlesWithEnclosure()
     {
-        $file = new \SplFileObject('vfs://output.csv', 'w');
+        $outputFile = new vfsStreamFile('output.csv');
+        $this->fs->addChild($outputFile);
 
-        file_put_contents('vfs://expected.csv', <<<CSV
+        $expectedFile = new vfsStreamFile('expected.csv');
+        $expectedFile->setContent(<<<CSV
             firstname,lastname
             'Jean Pierre',Martin
             John,Doe
             Frank,'O''hara'
 
-            CSV);
+            CSV
+        );
+        $this->fs->addChild($expectedFile);
+
+        $file = new \SplFileObject($outputFile->url(), 'w');
 
         $file->seek(0);
 
@@ -179,14 +197,16 @@ final class LoaderTest extends TestCase
             $loader,
         );
 
-        $this->assertFileEquals('vfs://expected.csv', 'vfs://output.csv');
+        $this->assertFileEquals($expectedFile->url(), $outputFile->url());
     }
 
     public function testFirstLineAsTitlesWithEscape()
     {
-        $file = new \SplFileObject('vfs://output.csv', 'w');
+        $outputFile = new vfsStreamFile('output.csv');
+        $this->fs->addChild($outputFile);
 
-        file_put_contents('vfs://expected.csv', <<<CSV
+        $expectedFile = new vfsStreamFile('expected.csv');
+        $expectedFile->setContent(<<<CSV
             firstname,lastname,address
             "Jean Pierre",Martin,"main street, 42
             Burgtown 12345"
@@ -195,7 +215,11 @@ final class LoaderTest extends TestCase
             Frank,O'hara,"station ""42"" street, 42
             Burgtown 12345"
 
-            CSV);
+            CSV
+        );
+        $this->fs->addChild($expectedFile);
+
+        $file = new \SplFileObject($outputFile->url(), 'w');
 
         $file->seek(0);
 
@@ -239,19 +263,25 @@ final class LoaderTest extends TestCase
             $loader,
         );
 
-        $this->assertFileEquals('vfs://expected.csv', 'vfs://output.csv');
+        $this->assertFileEquals($expectedFile->url(), $outputFile->url());
     }
 
     public function testNoTitlesWithoutOptions()
     {
-        $file = new \SplFileObject('vfs://output.csv', 'w');
+        $outputFile = new vfsStreamFile('output.csv');
+        $this->fs->addChild($outputFile);
 
-        file_put_contents('vfs://expected.csv', <<<CSV
+        $expectedFile = new vfsStreamFile('expected.csv');
+        $expectedFile->setContent(<<<CSV
             "Jean Pierre",Martin
             John,Doe
             Frank,O'hara
 
-            CSV);
+            CSV
+        );
+        $this->fs->addChild($expectedFile);
+
+        $file = new \SplFileObject($outputFile->url(), 'w');
 
         $file->seek(0);
 
@@ -289,19 +319,25 @@ final class LoaderTest extends TestCase
             $loader,
         );
 
-        $this->assertFileEquals('vfs://expected.csv', 'vfs://output.csv');
+        $this->assertFileEquals($expectedFile->url(), $outputFile->url());
     }
 
     public function testNoTitlesWithDelimiter()
     {
-        $file = new \SplFileObject('vfs://output.csv', 'w');
+        $outputFile = new vfsStreamFile('output.csv');
+        $this->fs->addChild($outputFile);
 
-        file_put_contents('vfs://expected.csv', <<<CSV
+        $expectedFile = new vfsStreamFile('expected.csv');
+        $expectedFile->setContent(<<<CSV
             "Jean Pierre";Martin
             John;Doe
             Frank;O'hara
 
-            CSV);
+            CSV
+        );
+        $this->fs->addChild($expectedFile);
+
+        $file = new \SplFileObject($outputFile->url(), 'w');
 
         $file->seek(0);
 
@@ -339,19 +375,25 @@ final class LoaderTest extends TestCase
             $loader,
         );
 
-        $this->assertFileEquals('vfs://expected.csv', 'vfs://output.csv');
+        $this->assertFileEquals($expectedFile->url(), $outputFile->url());
     }
 
     public function testNoTitlesWithEnclosure()
     {
-        $file = new \SplFileObject('vfs://output.csv', 'w');
+        $outputFile = new vfsStreamFile('output.csv');
+        $this->fs->addChild($outputFile);
 
-        file_put_contents('vfs://expected.csv', <<<CSV
+        $expectedFile = new vfsStreamFile('expected.csv');
+        $expectedFile->setContent(<<<CSV
             'Jean Pierre',Martin
             John,Doe
             Frank,'O''hara'
 
-            CSV);
+            CSV
+        );
+        $this->fs->addChild($expectedFile);
+
+        $file = new \SplFileObject($outputFile->url(), 'w');
 
         $file->seek(0);
 
@@ -389,22 +431,28 @@ final class LoaderTest extends TestCase
             $loader,
         );
 
-        $this->assertFileEquals('vfs://expected.csv', 'vfs://output.csv');
+        $this->assertFileEquals($expectedFile->url(), $outputFile->url());
     }
 
     public function testNoTitlesWithEscape()
     {
-        $file = new \SplFileObject('vfs://output.csv', 'w');
+        $outputFile = new vfsStreamFile('output.csv');
+        $this->fs->addChild($outputFile);
 
-        file_put_contents('vfs://expected.csv', <<<CSV
+        $expectedFile = new vfsStreamFile('expected.csv');
+        $expectedFile->setContent(<<<CSV
             "Jean Pierre",Martin,"main street, 42
             Burgtown 12345"
             John,Doe,"22nd street, 36
             Burgtown 12345"
             Frank,O'hara,"station ""42"" street, 42
             Burgtown 12345"
+            
+            CSV
+        );
+        $this->fs->addChild($expectedFile);
 
-            CSV);
+        $file = new \SplFileObject($outputFile->url(), 'w');
 
         $file->seek(0);
 
@@ -448,7 +496,7 @@ final class LoaderTest extends TestCase
             $loader,
         );
 
-        $this->assertFileEquals('vfs://expected.csv', 'vfs://output.csv');
+        $this->assertFileEquals($expectedFile->url(), $outputFile->url());
     }
 
     public function pipelineRunner(): PipelineRunnerInterface
