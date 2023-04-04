@@ -27,8 +27,7 @@ jobs:
                     wget -q https://github.com/infection/infection/releases/download/0.26.18/infection.phar.asc
                     chmod +x infection.phar
                     ./infection.phar
-
             -   name: Store infection log
-                uses: actions/upload-artifact@v2
+                uses: actions/upload-artifact@v3
                 with:
                     path: infection.log
