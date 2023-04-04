@@ -1,32 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kiboko\Component\Flow\Csv\Safe;
 
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
-use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class Loader implements LoaderInterface
+readonly class Loader implements LoaderInterface
 {
-    public function __construct(private readonly \SplFileObject $file, private readonly string $delimiter = ',', private readonly string $enclosure = '"', private readonly string $escape = '\\', private readonly ?array $columns = null, private readonly bool $firstLineAsHeaders = true, private readonly LoggerInterface $logger = new NullLogger())
-    {
+    public function __construct(
+        private \SplFileObject $file,
+        private string $delimiter = ',',
+        private string $enclosure = '"',
+        private string $escape = '\\',
+        private ?array $columns = null,
+        private bool $firstLineAsHeaders = true,
+        private LoggerInterface $logger = new NullLogger()
+    ) {
     }
 
-    /**
-     * @return \Generator
-     */
     public function load(): \Generator
     {
         $line = yield new EmptyResultBucket();
-        if ($this->columns !== null) {
+        if (null !== $this->columns) {
             $headers = $this->columns;
         } else {
             $headers = array_keys($line);
         }
-        if ($this->firstLineAsHeaders === true) {
+        if (true === $this->firstLineAsHeaders) {
             $this->file->fputcsv($headers, $this->delimiter, $this->enclosure, $this->escape);
         }
 
@@ -42,7 +47,7 @@ class Loader implements LoaderInterface
         }
     }
 
-    private function orderColumns(array $headers, array $line)
+    private function orderColumns(array $headers, array $line): array
     {
         $result = [];
         foreach ($headers as $cell) {
