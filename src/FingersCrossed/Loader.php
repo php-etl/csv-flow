@@ -1,18 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kiboko\Component\Flow\Csv\FingersCrossed;
 
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
-use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class Loader implements LoaderInterface
+readonly class Loader implements LoaderInterface
 {
-    private LoggerInterface $logger;
-
     public function __construct(
         private \SplFileObject $file,
         private string $delimiter = ',',
@@ -20,23 +19,19 @@ class Loader implements LoaderInterface
         private string $escape = '\\',
         private ?array $columns = null,
         private bool $firstLineAsHeaders = true,
-        ?LoggerInterface $logger = null
+        private LoggerInterface $logger = new NullLogger()
     ) {
-        $this->logger = $logger ?? new NullLogger();
     }
 
-    /**
-     * @return \Generator
-     */
     public function load(): \Generator
     {
         $line = yield new EmptyResultBucket();
-        if ($this->columns !== null) {
+        if (null !== $this->columns) {
             $headers = $this->columns;
         } else {
             $headers = array_keys($line);
         }
-        if ($this->firstLineAsHeaders === true) {
+        if (true === $this->firstLineAsHeaders) {
             $this->file->fputcsv($headers, $this->delimiter, $this->enclosure, $this->escape);
         }
 

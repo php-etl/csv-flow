@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kiboko\Component\Flow\Csv\FingersCrossed;
 
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
@@ -11,19 +13,16 @@ use Psr\Log\NullLogger;
 /**
  * @template-implements ExtractorInterface<array>
  */
-class Extractor implements ExtractorInterface
+readonly class Extractor implements ExtractorInterface
 {
-    private LoggerInterface $logger;
-
     public function __construct(
         private \SplFileObject $file,
         private string $delimiter = ',',
         private string $enclosure = '"',
         private string $escape = '\\',
         private ?array $columns = null,
-        ?LoggerInterface $logger = null
+        private LoggerInterface $logger = new NullLogger()
     ) {
-        $this->logger = $logger ?? new NullLogger();
     }
 
     /** @return iterable<AcceptanceResultBucket<array>|RejectionResultBucket<array|null>> */
@@ -38,29 +37,29 @@ class Extractor implements ExtractorInterface
 
             $this->file->setCsvControl($this->delimiter, $this->enclosure, $this->escape);
 
-            if ($this->columns === null) {
+            if (null === $this->columns) {
                 $columns = $this->file->fgetcsv();
             } else {
                 $columns = $this->columns;
             }
-            $columnCount = count($columns);
+            $columnCount = null === $columns ? 0 : \count($columns);
 
             while (!$this->file->eof()) {
                 try {
                     $line = $this->file->fgetcsv();
-                    if ($line === false) {
+                    if (false === $line) {
                         continue;
                     }
-                    $cellCount = count($line);
+                    $cellCount = \count((array) $line);
 
                     if ($cellCount > $columnCount) {
-                        $line = array_slice($line, 0, $columnCount, true);
+                        $line = \array_slice($line, 0, $columnCount, true);
                     } elseif ($cellCount > $columnCount) {
                         $line = array_pad($line, $columnCount - $cellCount, null);
                     }
 
                     $result = array_combine($columns, $line);
-                    if (!is_array($result)) {
+                    if (!\is_array($result)) {
                         yield new RejectionResultBucket($line);
                     } else {
                         yield new AcceptanceResultBucket($result);
@@ -74,11 +73,11 @@ class Extractor implements ExtractorInterface
         }
     }
 
-    public function cleanBom()
+    public function cleanBom(): void
     {
-        $bom = $this->file-> fread(3);
+        $bom = $this->file->fread(3);
         if (!preg_match('/^\\xEF\\xBB\\xBF$/', $bom)) {
-            $this->file-> seek(0);
+            $this->file->seek(0);
         }
     }
 }
