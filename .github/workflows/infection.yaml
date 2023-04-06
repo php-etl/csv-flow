@@ -20,7 +20,6 @@ jobs:
                 with:
                     args: --prefer-dist
                     php_version: '8.2'
-
             -   name: Infection
                 run: |
                     wget -q https://github.com/infection/infection/releases/download/0.26.18/infection.phar
