@@ -68,7 +68,7 @@ readonly class Extractor implements ExtractorInterface
                     ) {
                         yield new AcceptanceResultBucket(array_combine($columns, $line));
                     } else {
-                        yield new RejectionResultBucket($line);
+                        yield new RejectionResultBucket('The line read from the CSV was not in the proper format or the columns count does not match with the header line.', null, $line);
                     }
                 } catch (\Throwable $exception) {
                     $this->logger->critical($exception->getMessage(), ['exception' => $exception]);

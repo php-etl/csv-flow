@@ -35,8 +35,9 @@
     "prefer-stable": true,
     "require": {
         "php": "^8.2",
-        "php-etl/pipeline-contracts": "0.4.*",
+        "php-etl/pipeline-contracts": "0.5.*",
         "php-etl/bucket": "*",
+        "php-etl/bucket-contracts": "0.3.*",
         "psr/log": "^3.0"
     },
     "require-dev": {
@@ -44,9 +45,9 @@
         "phpstan/phpstan": "^1.10",
         "rector/rector": "^0.15",
         "infection/infection": "^0.26.18",
-        "friendsofphp/php-cs-fixer": "^3.16",
-        "php-etl/phpunit-extension": "*",
-        "mikey179/vfsstream": "^1.6"
+        "mikey179/vfsstream": "^1.6",
+        "friendsofphp/php-cs-fixer": "^3.38",
+        "php-etl/phpunit-extension": "0.7.*"
     },
     "extra": {
         "branch-alias": {

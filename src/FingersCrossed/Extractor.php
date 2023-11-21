@@ -60,7 +60,7 @@ readonly class Extractor implements ExtractorInterface
 
                     $result = array_combine($columns, $line);
                     if (!\is_array($result)) {
-                        yield new RejectionResultBucket($line);
+                        yield new RejectionResultBucket('The line read from the CSV was not in the proper format.', null, $line);
                     } else {
                         yield new AcceptanceResultBucket($result);
                     }
