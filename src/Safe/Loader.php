@@ -20,8 +20,7 @@ readonly class Loader implements LoaderInterface
         private ?array $columns = null,
         private bool $firstLineAsHeaders = true,
         private LoggerInterface $logger = new NullLogger()
-    ) {
-    }
+    ) {}
 
     public function load(): \Generator
     {

@@ -22,8 +22,7 @@ readonly class Extractor implements ExtractorInterface
         private string $escape = '\\',
         private ?array $columns = null,
         private LoggerInterface $logger = new NullLogger()
-    ) {
-    }
+    ) {}
 
     /** @return iterable<AcceptanceResultBucket<array>|RejectionResultBucket<array|null>> */
     public function extract(): iterable
